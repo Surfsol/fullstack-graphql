@@ -6,7 +6,7 @@ import PetsList from '../components/PetsList'
 import NewPetModal from '../components/NewPetModal'
 import Loader from '../components/Loader'
 
-const query = gql`
+const PET_LIST = gql`
 query MyPets{
   petsList{
     id
@@ -17,10 +17,20 @@ query MyPets{
 
 export default function Pets () {
   const [modal, setModal] = useState(false)
-  const [{data, loading}] = useQuery({query})
+  //https://www.apollographql.com/docs/tutorial/queries
+  const {data, loading, error} = useQuery(PET_LIST)
+  console.log(data)
 
   const onSubmit = input => {
     setModal(false)
+  }
+
+  if (loading){
+    return <Loader/>
+  }
+  
+  if (error) {
+    return <p>error</p>
   }
   
   if (modal) {
